@@ -24,3 +24,4 @@ if response.code == '200'
 else
   puts "Error fetching data from the API. Response code: #{response.code}"
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
