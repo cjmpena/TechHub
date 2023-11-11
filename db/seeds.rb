@@ -1,10 +1,26 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-#TEST
+require 'net/http'
+require 'json'
+
+url = URI.parse('https://fakestoreapi.com/products')
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = (url.scheme == 'https')
+
+request = Net::HTTP::Get.new(url.request_uri)
+
+response = http.request(request)
+
+if response.code == '200'
+  products_data = JSON.parse(response.body)
+
+  products_data.each do |product|
+    Product.create!(
+      name: product['title'],
+      price: product['price'],
+      description: product['description'],
+    )
+  end
+
+  puts 'Seeding completed successfully!'
+else
+  puts "Error fetching data from the API. Response code: #{response.code}"
+end
