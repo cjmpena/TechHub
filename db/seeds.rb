@@ -24,4 +24,19 @@ if response.code == '200'
 else
   puts "Error fetching data from the API. Response code: #{response.code}"
 end
+
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+Category.create(name: 'Electronics')
+Category.create(name: 'Clothing')
+Category.create(name: 'Jewelry')
+
+# Rails Console input
+product = Product.find(1)
+new_category = Category.find(2)
+product.category = new_category
+product.save
+
+product_ids = [1, 2, 3]  
+new_category_id = 4 
+Product.where(id: product_ids).update_all(category_id: new_category_id)

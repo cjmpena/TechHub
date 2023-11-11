@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-    permit_params :name, :price, :description
+    permit_params :name, :price, :description, :category_id
 
     index do
         selectable_column
@@ -7,6 +7,9 @@ ActiveAdmin.register Product do
         column :name
         column :price
         column :description
+        column 'Category' do |product|
+          product.category.name if product.category
+        end
         actions
     end
     
