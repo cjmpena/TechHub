@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :products
   root 'home#index'
   get 'home/index'
+  get 'categories/:id/products', to: 'home#category_products', as: :category_products
+  get 'search', to: 'home#search', as: :search
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 

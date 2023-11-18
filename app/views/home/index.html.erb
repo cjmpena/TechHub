@@ -3,8 +3,13 @@
 <% @categories.each do |category| %>
   <h2><%= category.name %></h2>
   <ul>
-    <% category.products.each do |product| %>
-      <li><%= link_to product.name, product_path(product) %></li>
-    <% end %>
+    <li><%= link_to "View Products", category_products_path(category) %></li>
   </ul>
+<% end %>
+
+<h2>Search Products</h2>
+<%= form_tag(search_path, method: :get) do %>
+  <%= text_field_tag :keyword, params[:keyword], placeholder: 'Enter keyword' %>
+  <%= select_tag :category_id, options_from_collection_for_select(@categories, 'id', 'name', params[:category_id]), include_blank: 'All Categories' %>
+  <%= submit_tag 'Search' %>
 <% end %>

@@ -12,5 +12,11 @@ class Product < ApplicationRecord
     def self.ransackable_associations(auth_object = nil)
         []
     end
+    def self.search(keyword, category_id)
+        products = self.all
+        products = products.where('name LIKE ? OR description LIKE ?', "%#{keyword}%", "%#{keyword}%") if keyword.present?
+        products = products.where(category_id: category_id) if category_id.present?
+        products
+      end
 end
   
