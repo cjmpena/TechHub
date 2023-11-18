@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :products
+  resources :carts, only: [:show] do
+    post 'add/:product_id', to: 'carts#add', on: :collection, as: :add_to_cart
+  end
+  resources :products, only: [:index, :show]
   root 'home#index'
   get 'home/index'
   get 'categories/:id/products', to: 'home#category_products', as: :category_products
