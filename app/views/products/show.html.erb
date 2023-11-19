@@ -4,4 +4,4 @@
 <p>Category: <%= @product.category.name if @product.category %></p>
 
 <%= link_to 'Back to products', root_path %>
-<%= button_to 'Add to Cart', add_to_cart_carts_path(product_id: @product), method: :post %>
+<%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: @product), method: :post %>
