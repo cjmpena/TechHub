@@ -2,6 +2,7 @@ class Product < ApplicationRecord
     has_many :line_items
     has_many :carts, through: :line_items
     belongs_to :category
+    has_one_attached :image
     
     validates :name, presence: true
     validates :price, presence: true, numericality: { greater_than: 0 }

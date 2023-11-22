@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :name, :price, :description, :category_id
+  permit_params :name, :price, :description, :category_id, :image
 
   index do
     selectable_column
@@ -22,6 +22,7 @@ ActiveAdmin.register Product do
       f.input :price, min: 0
       f.input :description
       f.input :category
+      f.input :image, as: :file
     end
     f.actions
   end
