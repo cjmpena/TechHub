@@ -34,9 +34,20 @@ class CartsController < ApplicationController
   def remove
     @cart = load_cart
     line_item = @cart.line_items.find(params[:line_item_id])
-    line_item.destroy
 
-    redirect_to cart_path(@cart), notice: 'Product removed from cart!'
+    line_item.destroy
+    flash[:notice] = 'Product removed from cart.'
+
+    redirect_to cart_path(@cart)
+  end
+
+  def destroy
+    @cart = load_cart
+    @cart.destroy
+    session[:cart_id] = nil
+
+    flash[:notice] = 'Cart cleared successfully.'
+    redirect_to root_path
   end
 
   private

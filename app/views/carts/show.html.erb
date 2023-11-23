@@ -1,19 +1,49 @@
 <h2>Your Shopping Cart</h2>
-<% @cart.products.each do |product| %>
-  <p><%= product.name %> - <%= product.price %></p>
+
+<%= form_tag(cart_path(@cart), method: :patch) do %>
+  <ul>
+    <% total_quantity = 0 %>
+    <% @cart.line_items.each do |line_item| %>
+      <li>
+        <%= line_item.product.name %> -
+        <%= line_item.product.price %> -
+        Quantity:
+        <%= number_field_tag "line_items[#{line_item.id}][quantity]", line_item.quantity, in: 1..10, class: 'quantity-field' %>
+        <%= submit_tag 'Update', data: { line_item_id: line_item.id }, class: 'quantity-update' %>
+        <%= form_tag(remove_cart_path(@cart, line_item_id: line_item.id), method: :delete, local: true) do |form| %>
+          <%= hidden_field_tag 'remove_all', 'true' %>
+          <%= submit_tag 'Remove' %>
+        <% end %>
+      </li>
+      <% total_quantity += line_item.quantity %>
+    <% end %>
+  </ul>
+
+  <p>Total Quantity in Cart: <span id="total-quantity"><%= total_quantity %></span></p>
+
+  <%= form_tag(cart_path(@cart), method: :delete) do |form| %>
+    <%= submit_tag 'Clear Cart' %>
+  <% end %>
 <% end %>
-<ul>
-  <% total_quantity = 0 %>
-<% @cart.line_items.each do |line_item| %>
-  <li>
-    <%= line_item.product.name %> -
-    <%= line_item.product.price %> -
-    Quantity:
-    <%= number_field_tag "line_items[#{line_item.id}][quantity]", line_item.quantity, in: 1..10, class: 'quantity-field' %>
-    <%= button_to '+', update_quantity_cart_path(@cart, line_item_id: line_item.id, quantity: line_item.quantity + 1), method: :patch, remote: true, class: 'quantity-update' %>
-    <%= button_to '-', update_quantity_cart_path(@cart, line_item_id: line_item.id, quantity: line_item.quantity - 1), method: :patch, remote: true, class: 'quantity-update' %>
-    <%= link_to 'Remove', remove_cart_path(@cart, line_item_id: line_item.id), method: :delete %>
-  </li>
-  <% total_quantity += line_item.quantity %>
-<% end %>
-<p>Total Quantity in Cart: <%= total_quantity %></p>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const updateButtons = document.querySelectorAll('.quantity-update');
+    updateButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const lineItemId = button.dataset.lineItemId;
+        const quantityField = document.querySelector(`#line_items_${lineItemId}_quantity`);
+        const totalQuantitySpan = document.getElementById('total-quantity');
+        const newQuantity = parseInt(quantityField.value);
+        const oldQuantity = parseInt(quantityField.defaultValue);
+        const quantityDifference = newQuantity - oldQuantity;
+
+        totalQuantitySpan.textContent = parseInt(totalQuantitySpan.textContent) + quantityDifference;
+
+        quantityField.defaultValue = newQuantity;
+      });
+    });
+  });
+</script>
