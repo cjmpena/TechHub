@@ -1,0 +1,12 @@
+<div class="search-results-container">
+<h1>Search Results</h1>
+
+<% if @products.present? %>
+  <ul>
+    <% @products.each do |product| %>
+      <li><%= link_to product.name, product_path(product) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products found for the given search criteria.</p>
+<% end %>

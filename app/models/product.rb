@@ -1,5 +1,8 @@
 class Product < ApplicationRecord
+    has_many :line_items
+    has_many :carts, through: :line_items
     belongs_to :category
+    has_one_attached :image
     
     validates :name, presence: true
     validates :price, presence: true, numericality: { greater_than: 0 }
@@ -12,5 +15,11 @@ class Product < ApplicationRecord
     def self.ransackable_associations(auth_object = nil)
         []
     end
+    def self.search(keyword, category_id)
+        products = self.all
+        products = products.where('name LIKE ? OR description LIKE ?', "%#{keyword}%", "%#{keyword}%") if keyword.present?
+        products = products.where(category_id: category_id) if category_id.present?
+        products
+      end
 end
   

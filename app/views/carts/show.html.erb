@@ -1,0 +1,49 @@
+<div class="cart-container">
+ <h2>Your Shopping Cart</h2>
+
+ <%= form_tag(cart_path(@cart), method: :patch) do %>
+  <ul>
+    <% total_quantity = 0 %>
+    <% @cart.line_items.each do |line_item| %>
+      <li>
+        <%= line_item.product.name %> -
+        <%= line_item.product.price %> -
+        Quantity:
+        <%= number_field_tag "line_items[#{line_item.id}][quantity]", line_item.quantity, in: 1..10, class: 'quantity-field' %>
+        <%= submit_tag 'Update', data: { line_item_id: line_item.id }, class: 'quantity-update' %>
+        <%= hidden_field_tag 'remove_all', 'true' %>
+        <%= link_to 'Remove', remove_cart_path(@cart, line_item_id: line_item.id), method: :delete, class: 'remove-button' %>
+      </li>
+      <% total_quantity += line_item.quantity %>
+    <% end %>
+  </ul>
+
+  <p>Total Quantity in Cart: <span id="total-quantity"><%= total_quantity %></span></p>
+ <% end %>
+
+ <%= form_tag(cart_path(@cart), method: :delete) do |form| %>
+  <%= submit_tag 'Clear Cart', class: 'clear-cart-button' %>
+ <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const updateButtons = document.querySelectorAll('.quantity-update');
+    updateButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const lineItemId = button.dataset.lineItemId;
+        const quantityField = document.querySelector(`#line_items_${lineItemId}_quantity`);
+        const totalQuantitySpan = document.getElementById('total-quantity');
+        const newQuantity = parseInt(quantityField.value);
+        const oldQuantity = parseInt(quantityField.defaultValue);
+        const quantityDifference = newQuantity - oldQuantity;
+
+        totalQuantitySpan.textContent = parseInt(totalQuantitySpan.textContent) + quantityDifference;
+
+        quantityField.defaultValue = newQuantity;
+      });
+    });
+  });
+</script>
