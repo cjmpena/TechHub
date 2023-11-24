@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
+  resources :products
+  root 'home#index'
+  get 'home/index'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  devise_for :customers
+  devise_for :customers, controllers: {
+    sessions: 'customers/sessions'
+  }
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

@@ -13,10 +13,14 @@ if response.code == '200'
   products_data = JSON.parse(response.body)
 
   products_data.each do |product|
+    category_name = product['category']
+    category = Category.find_or_create_by(name: category_name)
+
     Product.create!(
       name: product['title'],
       price: product['price'],
       description: product['description'],
+      category: category
     )
   end
 
