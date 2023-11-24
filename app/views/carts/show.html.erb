@@ -1,30 +1,32 @@
-<h2>Your Shopping Cart</h2>
+<div class="cart-container">
+  <h2>Your Shopping Cart</h2>
 
-<%= form_tag(cart_path(@cart), method: :patch) do %>
-  <ul>
-    <% total_quantity = 0 %>
-    <% @cart.line_items.each do |line_item| %>
-      <li>
-        <%= line_item.product.name %> -
-        <%= line_item.product.price %> -
-        Quantity:
-        <%= number_field_tag "line_items[#{line_item.id}][quantity]", line_item.quantity, in: 1..10, class: 'quantity-field' %>
-        <%= submit_tag 'Update', data: { line_item_id: line_item.id }, class: 'quantity-update' %>
-        <%= form_tag(remove_cart_path(@cart, line_item_id: line_item.id), method: :delete, local: true) do |form| %>
-          <%= hidden_field_tag 'remove_all', 'true' %>
-          <%= submit_tag 'Remove' %>
-        <% end %>
-      </li>
-      <% total_quantity += line_item.quantity %>
+  <%= form_tag(cart_path(@cart), method: :patch) do %>
+    <ul>
+      <% total_quantity = 0 %>
+      <% @cart.line_items.each do |line_item| %>
+        <li>
+          <%= line_item.product.name %> -
+          <%= line_item.product.price %> -
+          Quantity:
+          <%= number_field_tag "line_items[#{line_item.id}][quantity]", line_item.quantity, in: 1..10, class: 'quantity-field' %>
+          <%= submit_tag 'Update', data: { line_item_id: line_item.id }, class: 'quantity-update' %>
+          <%= form_tag(remove_cart_path(@cart, line_item_id: line_item.id), method: :delete, local: true) do |form| %>
+            <%= hidden_field_tag 'remove_all', 'true' %>
+            <%= submit_tag 'Remove', class: 'remove-button' %>
+          <% end %>
+        </li>
+        <% total_quantity += line_item.quantity %>
+      <% end %>
+    </ul>
+
+    <p>Total Quantity in Cart: <span id="total-quantity"><%= total_quantity %></span></p>
+
+    <%= form_tag(cart_path(@cart), method: :delete) do |form| %>
+      <%= submit_tag 'Clear Cart', class: 'clear-cart-button' %>
     <% end %>
-  </ul>
-
-  <p>Total Quantity in Cart: <span id="total-quantity"><%= total_quantity %></span></p>
-
-  <%= form_tag(cart_path(@cart), method: :delete) do |form| %>
-    <%= submit_tag 'Clear Cart' %>
   <% end %>
-<% end %>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
