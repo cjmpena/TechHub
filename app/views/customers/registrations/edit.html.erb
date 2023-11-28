@@ -34,6 +34,17 @@
   <div class="actions">
     <%= f.submit "Update" %>
   </div>
+
+  <div class="field">
+    <%= f.label :address %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.text_field :address, autocomplete: "address" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :province_id %> <i>(select your province)</i><br />
+    <%= f.collection_select :province_id, Province.order(:name), :id, :name, prompt: "Select your province" %>
+  </div>
+
 <% end %>
 
 <h3>Cancel my account</h3>

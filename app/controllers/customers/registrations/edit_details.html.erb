@@ -1,0 +1,42 @@
+<%= form_for @customer, url: update_details_customers_path do |f| %>
+ <% if @customer.errors.any? %>
+   <div id="error_explanation">
+     <h2><%= pluralize(@customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+     <ul>
+     <% @customer.errors.full_messages.each do |message| %>
+       <li><%= message %></li>
+     <% end %>
+     </ul>
+   </div>
+ <% end %>
+
+ <div class="field">
+   <%= f.label :first_name %> <i>(leave blank if you don't want to change it)</i><br />
+   <%= f.text_field :first_name, autocomplete: "given-name" %>
+ </div>
+
+ <div class="field">
+   <%= f.label :last_name %> <i>(leave blank if you don't want to change it)</i><br />
+   <%= f.text_field :last_name, autocomplete: "family-name" %>
+ </div>
+
+ <div class="field">
+   <%= f.label :email %> <i>(leave blank if you don't want to change it)</i><br />
+   <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+ </div>
+
+ <div class="field">
+   <%= f.label :phone %> <i>(leave blank if you don't want to change it)</i><br />
+   <%= f.text_field :phone, autocomplete: "tel" %>
+ </div>
+
+ <div class="field">
+   <%= f.label :address %> <i>(leave blank if you don't want to change it)</i><br />
+   <%= f.text_field :address, autocomplete: "address" %>
+ </div>
+
+ <div class="actions">
+   <%= f.submit "Update" %>
+ </div>
+<% end %>
