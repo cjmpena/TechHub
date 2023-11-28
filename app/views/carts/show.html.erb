@@ -1,6 +1,8 @@
 <div class="cart-container">
  <h2>Your Shopping Cart</h2>
 
+ <%= link_to 'Checkout', new_checkout_path %>
+
  <%= form_tag(cart_path(@cart), method: :patch) do %>
   <ul>
     <% total_quantity = 0 %>

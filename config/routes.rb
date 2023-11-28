@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   end
  
   resources :products, only: [:index, :show]
+
+  resources :checkout, only: [:new, :create]
  
   root 'home#index'
   get 'home/index'

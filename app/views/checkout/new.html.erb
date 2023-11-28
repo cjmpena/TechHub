@@ -1,0 +1,12 @@
+<%= form_with(model: @order, url: checkout_index_path) do |form| %>
+  <%= form.label :billing_address %>
+  <%= form.text_field :billing_address %>
+
+  <%= form.label :shipping_address %>
+  <%= form.text_field :shipping_address %>
+
+  <%= form.label :payment_method %>
+  <%= form.select :payment_method, ['Credit Card', 'Debit Card', 'PayPal'] %>
+
+  <%= form.submit "Place Order" %>
+<% end %>

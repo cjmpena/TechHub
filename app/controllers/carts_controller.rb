@@ -1,4 +1,6 @@
 class CartsController < ApplicationController
+  before_action :set_cart
+
   def show
     @cart = load_cart
   end
@@ -38,7 +40,7 @@ class CartsController < ApplicationController
     line_item.destroy
     flash[:notice] = 'Product removed from cart.'
 
-    redirect_to cart_path(@cart)
+    redirect_to cart_path
   end
 
   def destroy
@@ -51,6 +53,10 @@ class CartsController < ApplicationController
   end
 
   private
+
+  def set_cart
+    @cart = load_cart
+  end
 
   def load_cart
     Cart.find(session[:cart_id])
