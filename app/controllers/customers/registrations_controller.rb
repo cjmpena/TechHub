@@ -13,6 +13,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:address, :province_id])
   end
+
+  def after_sign_up_path_for(resource)
+    new_customer_session_path
+  end
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
