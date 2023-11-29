@@ -4,21 +4,19 @@ class CheckoutController < ApplicationController
 
   def new
     @order = Order.new
-  end
+    @customer_id = session[:customer_id]
+    @cart_total = @cart.line_items.to_a.sum { |item| item.product.price * item.quantity }
+   end      
 
-  def create
+   def create
     @order = Order.new(order_params)
-    @order.customer = current_customer
-    @order.build_invoice(cart: @cart)
-    @order.calculate_total
-
+    @order.calculate_taxes
     if @order.save
-      clear_cart
-      redirect_to invoice_path(@order)
+      redirect_to order_confirmation_path(@order)
     else
       render :new
     end
-  end
+   end   
 
   def show
     @order = Order.find(params[:id])
@@ -28,8 +26,8 @@ class CheckoutController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:billing_address, :shipping_address, :payment_method)
-  end
+    params.require(:order).permit(:address, :province_id, :customer_id, :total)
+   end      
 
   def set_cart
     @cart = load_cart

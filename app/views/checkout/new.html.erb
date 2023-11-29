@@ -1,12 +1,11 @@
-<%= form_with(model: @order, url: checkout_index_path) do |form| %>
-  <%= form.label :billing_address %>
-  <%= form.text_field :billing_address %>
+<%= form_with(model: @order, url: checkout_path) do |form| %>
+ <%= form.hidden_field :customer_id, value: current_user.id %>
+ <%= form.hidden_field :total, value: @cart_total %>
+ <%= form.label :address %>
+ <%= form.text_field :address %>
 
-  <%= form.label :shipping_address %>
-  <%= form.text_field :shipping_address %>
+ <%= form.label :province %>
+ <%= form.collection_select :province_id, Province.all, :id, :name, id: 'province-select' %>
 
-  <%= form.label :payment_method %>
-  <%= form.select :payment_method, ['Credit Card', 'Debit Card', 'PayPal'] %>
-
-  <%= form.submit "Place Order" %>
+ <%= form.submit "Place Order" %>
 <% end %>
