@@ -2,8 +2,10 @@ class Order < ApplicationRecord
   belongs_to :customer
   belongs_to :province
   
+  before_save :calculate_taxes
+  
   def calculate_taxes
-    case self.customer.province.name
+    case self.province.name
     when 'Alberta', 'Northwest Territories', 'Nunavut', 'Yukon'
       self.tax = self.total * 0.05 # 5% GST
     when 'Manitoba', 'British Columbia'

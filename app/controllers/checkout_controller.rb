@@ -12,11 +12,12 @@ class CheckoutController < ApplicationController
     @order = Order.new(order_params)
     @order.calculate_taxes
     if @order.save
+      clear_cart
       redirect_to order_confirmation_path(@order)
     else
       render :new
     end
-   end   
+   end
 
   def show
     @order = Order.find(params[:id])

@@ -1,6 +1,7 @@
 <%= form_with(model: @order, url: checkout_path) do |form| %>
  <%= form.hidden_field :customer_id, value: current_user.id %>
  <%= form.hidden_field :total, value: @cart_total %>
+ <%= form.hidden_field :province_id, value: params[:province_id] %>
  <%= form.label :address %>
  <%= form.text_field :address %>
 
