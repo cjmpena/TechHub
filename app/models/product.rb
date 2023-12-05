@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
     has_many :line_items
     has_many :carts, through: :line_items
+    has_many :orders_products
+    has_many :orders, through: :orders_products
     belongs_to :category
     has_one_attached :image
     

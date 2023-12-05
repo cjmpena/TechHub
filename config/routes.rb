@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
  
   resources :products, only: [:index, :show]
-
+ 
   resources :checkout, only: [:new, :create]
  
   root 'home#index'
@@ -35,5 +35,7 @@ Rails.application.routes.draw do
   end
  
   get "up" => "rails/health#show", as: :rails_health_check
+ 
+  resources :orders, only: [:index]
  end
  

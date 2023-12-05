@@ -8,5 +8,8 @@
  <%= form.label :province %>
  <%= form.collection_select :province_id, Province.all, :id, :name, id: 'province-select' %>
 
+ <%= form.label :products %>
+ <%= form.collection_select :product_ids, @cart.products, :id, :name, {}, { multiple: true } %>
+
  <%= form.submit "Place Order" %>
 <% end %>

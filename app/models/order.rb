@@ -1,26 +1,14 @@
 class Order < ApplicationRecord
   belongs_to :customer
   belongs_to :province
+  has_many :orders_products
+  has_many :products, through: :orders_products
   
   before_save :calculate_taxes
   
   def calculate_taxes
-    case self.province.name
-    when 'Alberta', 'Northwest Territories', 'Nunavut', 'Yukon'
-      self.tax = self.total * 0.05 # 5% GST
-    when 'Manitoba', 'British Columbia'
-      self.tax = self.total * 0.12 # 12% GST + PST
-    when 'Saskatchewan'
-      self.tax = self.total * 0.11 # 11% GST + PST
-    when 'New Brunswick', 'Newfoundland and Labrador', 'Nova Scotia', 'Prince Edward Island'
-      self.tax = self.total * 0.15 # 15% HST
-    when 'Quebec'
-      self.tax = self.total * 0.14975 # 14.975% GST + QST
-    when 'Ontario'
-      self.tax = self.total * 0.13 # 13% HST
-    else
-      self.tax = 0 # No tax for other provinces
-    end
+    original_total = self.total
+    self.tax = original_total * self.province.tax_rate
     self.total += self.tax
-   end    
+   end     
 end
