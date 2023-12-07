@@ -35,6 +35,10 @@ Rails.application.routes.draw do
   end
  
   get "up" => "rails/health#show", as: :rails_health_check
+
+  namespace :admin do
+    resources :orders, only: [:index]
+  end  
  
   resources :orders, only: [:index]
  end
