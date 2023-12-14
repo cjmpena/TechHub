@@ -9,7 +9,10 @@
   <h3>Products:</h3>
   <ul>
     <% order.products.each do |product| %>
-      <li><%= product.name %></li>
+      <li>
+        <%= product.name %>
+        <%= image_tag product.image.url, height: '50' if product.image.attached? %>
+      </li>
     <% end %>
   </ul>
 <% end %>
