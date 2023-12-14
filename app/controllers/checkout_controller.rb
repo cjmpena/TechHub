@@ -11,21 +11,26 @@ class CheckoutController < ApplicationController
  
   def create
     @order = Order.new(order_params)
-    
+
+    # Set the province for the order
+    @order.province = Province.find_by(id: params[:order][:province_id])
+
+    # Associate products with the order
     @cart.products.each do |product|
       @order.products << product
     end
-   
+
+    # Calculate total and taxes
     @order.total = @cart.line_items.to_a.sum { |item| item.product.price * item.quantity }
     @order.calculate_taxes
-   
+
     if @order.save
       clear_cart
       redirect_to order_confirmation_path(@order)
     else
       render :new
     end
-   end   
+  end
  
   def show
     @order = Order.find(params[:id])

@@ -2,27 +2,63 @@
 <html>
   <head>
     <title>TechHub</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- Add Bootstrap CSS link -->
+    <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' %>
   </head>
+  <style>
+    .navbar-links {
+      margin-right: 10px;
+    }
+    
+    a.no-underline {
+    text-decoration: none;
+  }
+  </style>
 
   <body>
-  <nav>
-      <% if customer_signed_in? %>
-        <%= link_to 'Homepage', root_path, class: 'homepage-button' %>
-        <%= link_to 'Account', edit_customer_registration_path, class: 'account-button' %>
-        <%= link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'logout-button' %>
-      <% else %>
-        <%= link_to 'Login', new_customer_session_path, class: 'login-button' %>
-      <% end %>
-        <%= link_to 'View Past Orders', orders_path %>
-        <%= link_to 'Cart', cart_path(@cart), class: 'cart-button' %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <%= link_to 'TechHub', root_path, class: 'no-underline' %>
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <% if customer_signed_in? %>
+            <li class="nav-item">
+              <%= link_to 'Account', edit_customer_registration_path, class: 'nav-link btn btn-secondary text-white text-decoration-none navbar-links' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'nav-link btn btn-secondary text-white text-decoration-none navbar-links' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Login', new_customer_session_path, class: 'nav-link btn btn-secondary text-white text-decoration-none navbar-links' %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to 'View Past Orders', orders_path, class: 'nav-link btn btn-secondary text-white text-decoration-none navbar-links' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Cart', cart_path(@cart), class: 'nav-link btn btn-secondary text-white text-decoration-none navbar-links' %>
+          </li>
+        </ul>
+      </div>
     </nav>
+
     
     <%= yield %>
+
+    <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %>
+    <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' %>
+    <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' %>
   </body>
 </html>

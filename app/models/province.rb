@@ -1,4 +1,5 @@
 class Province < ApplicationRecord
     has_many :customers
-   end
-   
+    has_many :orders
+  end
+  
