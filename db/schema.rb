@@ -110,8 +110,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_151948) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "address"
     t.integer "province_id", null: false
+    t.string "address"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["province_id"], name: "index_orders_on_province_id"
   end
@@ -138,6 +138,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_151948) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "tax_rate"
   end
 
   create_table "text_pages", force: :cascade do |t|
