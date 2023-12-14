@@ -5,16 +5,32 @@
 </style>
 
 <div class="container mt-5">
-  <div class="jumbotron">
-    <h1 class="display-4">Welcome to Our Store!</h1>
+  <div class="text-center">
+    <div class="jumbotron">
+      <h1 class="display-1">Welcome to Our Store!</h1>
 
-    <% if customer_signed_in? %>
-      <p class="lead">Welcome, <%= current_customer.email %>! <%= link_to "Logout", destroy_customer_session_path, method: :delete, class: 'no-underline' %></p>
-    <% end %>
-
+      <% if customer_signed_in? %>
+        <p class="lead">Welcome, <%= current_customer.email %>! <%= link_to "Logout", destroy_customer_session_path, method: :delete, class: 'no-underline' %></p>
+      <% end %>
+      
+      <h3 class="display-6">About</h3>
+        <div class="mb-3 font-family">
+          <%= raw @contact_page.content if @contact_page.present? %>
+        </div>
+    </div>
   </div>
 
-  <div class="row">
+  <div class="text-center">
+    <h2>Contact Us</h2>
+    <div class="mb-3 font-family">
+      <%= raw @contact_info.content if @contact_info.present? %>
+    </div>
+    <div class="font-family">
+      <%= raw @contact_email.content if @contact_email.present? %>
+    </div>
+  </div>
+
+  <div class="row mt-4">
     <% @categories.each do |category| %>
       <div class="col-md-6">
         <div class="card mb-4">
@@ -45,5 +61,4 @@
       <% end %>
     </div>
   </div>
-  
 </div>

@@ -10,13 +10,6 @@ ActiveAdmin.register Product do
     column 'Category' do |product|
       product.category.name if product.category
     end
-    column 'Image' do |product|
-      if product.image.attached?
-        image_tag product.image.url, height: '50'
-      else
-        'No Image'
-      end
-    end
     actions
   end
 
